@@ -1,11 +1,6 @@
-<!-- Modified by Austin T. Armas --!>
 <!DOCTYPE html>
 <html>
 <head>
-<title>3d env</title>
-	<!-- Keith Clark wrote the clock the heart of the engine im just adding things and modifying, I want as many people to work on this type of thing  --!>
-	<!-- Could host on a server and then log all the locations on the relative map to a register and then display from that table with the clock, or at least display a round robin of the stack of locations--!>
-
 <style>
 body,html{height:100%;margin:0;overflow:hidden}
 
@@ -123,7 +118,7 @@ function Camera( world, x, y, z, rx, ry, rz) {
 	this.world = world;
 	this.position = new Triplet(x, y, z);
 	this.rotation = new Triplet(rx, ry, rz);	
-	this.fov = 700;
+	this.fov = 20;
 }
 
 Camera.prototype = {
@@ -138,10 +133,27 @@ Camera.prototype = {
 
 /* Plane
 -------------------------------------------------- */
+function testfunc()
+{
+console.log('clicked');
+}
+
+
+
 
 function Plane( colour, w,h,x,y,z,rx,ry,rz) {
 	this.node = document.createElement("div")
-	this.node.className="plane"
+	this.node.id="plane";
+
+if (this.node.addEventListener) {  // all browsers except IE before version 9
+  this.node.addEventListener("click", testfunc, false);
+} else {
+  if (this.node.attachEvent) {   // IE before version 9
+    this.node.attachEvent("click", testfunc);
+  }
+}
+
+	this.node.className="plane";
 	this.colour = colour
 	this.width = w;
 	this.height = h;
@@ -159,6 +171,43 @@ Plane.prototype = {
 			CssUtils.translate( this.position.x, this.position.y, this.position.z, this.rotation.x, this.rotation.y, this.rotation.z)
 	}
 }
+
+
+/*avatar
+-------------------------------------------------- */
+function PlaneBeta( colour, w,h,x,y,z,rx,ry,rz) {
+        this.node = document.createElement("div")
+        this.node.id="PlaneBeta";
+
+if (this.node.addEventListener) {  // all browsers except IE before version 9
+  this.node.addEventListener("click", testfunc, false);
+} else {
+  if (this.node.attachEvent) {   // IE before version 9
+    this.node.attachEvent("click", testfunc);
+  }
+}
+
+        this.node.className="PlaneBeta";
+        this.colour = colour
+        this.width = w;
+        this.height = h;
+        this.position = new Triplet(x, y, z);
+        this.rotation = new Triplet(rx, ry, rz);
+        this.update();
+}
+
+PlaneBeta.prototype = {
+        update: function() {
+                this.node.style.cssText +=
+                        "width:" + this.width + "px;" +
+                        "height:" + this.height + "px;" +
+                        CssUtils.texture(this.colour, this.rotation.x, this.rotation.y, this.rotation.z) +
+                        CssUtils.translate( this.position.x, this.position.y, this.position.z, this.rotation.x, this.rotation.y, this.rotation.z)
+        }
+}
+
+
+
 
 /* World
 -------------------------------------------------- */
@@ -189,7 +238,7 @@ function Viewport( node ) {
 window.onload = function() {
 	
 	var maxSpeed = 15;
-	var accel = 0.9;
+	var accel = .9;
 	var speed = 0;
 	var viewport = new Viewport( document.body );
 	var world = new World( viewport );
@@ -210,38 +259,28 @@ window.onload = function() {
 		world.addPlane( new Plane(colour, w, d, x+w, y+h, z, 90, 180, 0));
 		world.addPlane( new Plane(colour, w, h, x, y, z+d, 0, 0, 0));
 	}
-/*##############################################################################################*/
 
-		/*Add objects below, if an object you wish*/
-		/*to add multiple times make a function that does it */
-		/*[FUNCTION] -> Plane( colour, w,h,x,y,z,rx,ry,rz)*/
-		/*[PROGRAM] -> 	this.node = document.createElement("div")
-		this.node.className="plane"
-		this.colour = colour
-		this.width = w;
-		this.height = h;
-		this.position = new Triplet(x, y, z);
-		this.rotation = new Triplet(rx, ry, rz);
-		this.update();*/
+	// swag
+	world.addPlane( new PlaneBeta("url(mars.png)", "596", "960", -viewport.camera.position.x, -viewport.camera.position.y,-500,0,0,0));
 
-/*##############################################################################################*/
 	// floor
-	world.addPlane( new Plane("url(wood.jpeg)", 10000, 10000, -400, 400, 53, 180, 0, 0));
+	world.addPlane( new Plane("url(marble.jpg)", 10000, 10000, -400, 400, 53, 180, 0, 0));
 
 	// moon
 
 	world.addPlane( new Plane("url(moon.png)", 624, 624, 624, -23000, -8047, 270, 25,45));
 
 	// walls
-	world.addPlane( new Plane("url(wood.jpg)", 10000, 500, 9000, -9000, -447, 270, 0,180));
-	world.addPlane( new Plane("url(wood.jpg)", 11000, 500, -400, -10000, -447, 270, 90, 180));
-	world.addPlane( new Plane("url(wood.jpg)", 10000, 500, -400, 400, -447, 90, 00, 0,0));
-	world.addPlane( new Plane("url(wood.jpg)", 10000, 500, 9000, 400, -447, 90, 270, 0));
+	world.addPlane( new Plane("url(beige.jpg)", 10000, 500, 9000, -9000, -447, 270, 0,180));
+	world.addPlane( new Plane("url(beige.jpg)", 11000, 500, -400, -10000, -447, 270, 90, 180));
+	world.addPlane( new Plane("url(beige.jpg)", 10000, 500, -400, 400, -447, 90, 00, 0,0));
+	world.addPlane( new Plane("url(beige.jpg)", 10000, 500, 9000, 400, -447, 90, 270, 0));
+
 
 
 	viewport.camera.position.x=-2500
 	viewport.camera.position.y=180
-	viewport.camera.position.z=150
+	viewport.camera.position.z=500
 	viewport.camera.rotation.x=270
 	viewport.camera.rotation.y=0
 	viewport.camera.rotation.z=145
@@ -273,14 +312,18 @@ window.onload = function() {
 	}, false);
 	
 	document.addEventListener("mousemove", function(ev) {
-		viewport.camera.rotation.x -= (ev.pageY - pointer.y)/2;
-		viewport.camera.rotation.z += (ev.pageX - pointer.x)/2;
+		viewport.camera.rotation.x -= (ev.pageY - pointer.y)/2.3;
+		viewport.camera.rotation.z += (ev.pageX - pointer.x)/2.3;
 		pointer.x = ev.pageX;
 		pointer.y = ev.pageY;
+		
 	}, false);
 
 	document.addEventListener("keydown", function(e) {
 		console.log(e.keyCode);
+		if(e.keyCode == 27){
+		alert('YOU BYPASSED THE MOUSE INPUT NICE');
+}
 		switch (e.keyCode) {
 			case 87:
 				keyState.forward = true;
@@ -307,6 +350,7 @@ window.onload = function() {
 	// Game Loop
 
 	(function() {
+
 		if (keyState.backward) {
 			if (speed > -maxSpeed) speed -= accel;
 		} else if (keyState.forward) {
@@ -323,8 +367,13 @@ window.onload = function() {
 		viewport.camera.position.x -= xo * speed;
 		viewport.camera.position.y -= yo * speed;
 		viewport.camera.update();
+
+		var element = document.getElementById("PlaneBeta");
+		element.parentNode.removeChild(element);
+		world.addPlane( new PlaneBeta("url(mars.png)", "596", "960", -viewport.camera.position.x, -viewport.camera.position.y,-500,viewport.camera.rotation.x,viewport.camera.rotation.z,0));
 		
 		setTimeout( arguments.callee, 15);
+
 
 	})();
 }
