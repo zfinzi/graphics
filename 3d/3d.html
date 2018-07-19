@@ -1,8 +1,11 @@
-
+<!-- Modified by Austin T. Armas --!>
 <!DOCTYPE html>
 <html>
 <head>
-<title>A 3D FPS concept using HTML and CSS3 transforms by Keith Clark</title>
+<title>3d env</title>
+	<!-- Keith Clark wrote the clock the heart of the engine im just adding things and modifying, I want as many people to work on this type of thing  --!>
+	<!-- Could host on a server and then log all the locations on the relative map to a register and then display from that table with the clock, or at least display a round robin of the stack of locations--!>
+
 <style>
 body,html{height:100%;margin:0;overflow:hidden}
 
@@ -207,7 +210,21 @@ window.onload = function() {
 		world.addPlane( new Plane(colour, w, d, x+w, y+h, z, 90, 180, 0));
 		world.addPlane( new Plane(colour, w, h, x, y, z+d, 0, 0, 0));
 	}
+/*##############################################################################################*/
 
+		/*Add objects below, if an object you wish*/
+		/*to add multiple times make a function that does it */
+		/*[FUNCTION] -> Plane( colour, w,h,x,y,z,rx,ry,rz)*/
+		/*[PROGRAM] -> 	this.node = document.createElement("div")
+		this.node.className="plane"
+		this.colour = colour
+		this.width = w;
+		this.height = h;
+		this.position = new Triplet(x, y, z);
+		this.rotation = new Triplet(rx, ry, rz);
+		this.update();*/
+
+/*##############################################################################################*/
 	// floor
 	world.addPlane( new Plane("url(wood.jpeg)", 10000, 10000, -400, 400, 53, 180, 0, 0));
 
